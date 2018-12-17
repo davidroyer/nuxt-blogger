@@ -1,20 +1,19 @@
 <template>
-<div class="blog">
+  <div class="blog">
     <h1 v-text="post.title"></h1>
     <article v-html="post.html"></article>
-    <br><hr><br>
+    <br>
+    <hr><br>
     <pre>{{post}}</pre>
-</div>
+  </div>
 </template>
 
 <script>
 export default {
-    async asyncData({ $axios, params }) {
-    // const post = await $axios.$get(`api/posts/${params.id}`)
-    // const post = await $axios.$get(`http://localhost:3000/api/blog/${params.id}.json`)
+  async asyncData ({ $axios, params }) {
     const post = require(`@/static/api/blog/${params.id}.json`)
 
     return { post }
-    }    
+  }
 }
 </script>
