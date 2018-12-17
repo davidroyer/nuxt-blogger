@@ -1,0 +1,50 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Post 1",
+      "body": "Content for post 1"
+    },
+    {
+      "id": 2,
+      "title": "Post 2",
+      "body": "Content for post 2"
+    },
+    {
+      "createdAt": 1528239203144,
+      "id": 3
+    },
+    {
+      "createdAt": 1528239265920,
+      "id": 4
+    },
+    {
+      "id": 5,
+      "title": "Post 5",
+      "body": "abc",
+      "createdAt": 1528239363436
+    },
+    {
+      "title": "Test No ID",
+      "body": "test",
+      "createdAt": 1528239405894,
+      "id": 6
+    },
+    {
+      "title": "Post Test - No bodyjson in nuxt.config",
+      "body": "Testing again.",
+      "createdAt": 1528360237305,
+      "id": 7
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
