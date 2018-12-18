@@ -13,8 +13,8 @@ const markdownHighlight = require('markdown-it-highlightjs')
 
 module.exports = function (moduleOptions) {
   const defaultOptions = {
-    inputDir: 'api',
-    outputDir: 'static',
+    inputDir: 'content',
+    outputDir: 'static/api',
     lists: [
       { name: 'list', sort: (a, b) => moment(a.date).unix() < moment(b.date).unix() }
     ],
@@ -40,7 +40,7 @@ module.exports = function (moduleOptions) {
 
   // convert md to json
   this.nuxt.hook('build:before', async () => {
-    const outputDirPath = path.join(process.cwd(), options.outputDir, options.inputDir);
+    const outputDirPath = path.join(process.cwd(), options.outputDir);
 
     await del(outputDirPath)
     await mkdirp(outputDirPath);

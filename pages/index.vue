@@ -11,9 +11,7 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
-import Article from '@/content/ArticleDemo.md'
 
-console.log(Article)
 export default {
   components: {
     Logo

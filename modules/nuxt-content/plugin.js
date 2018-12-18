@@ -8,9 +8,3 @@ export default (context, inject) => {
   context.$content = contentApi
   inject('content', contentApi)
 }
-// $content.get('blog')
-// $content.get(`blog/${params.id}`)
-
-// export default ({ app }, inject) => {
-//   inject('myInjectedFunction', (string) => console.log('That was easy!', string))
-// }

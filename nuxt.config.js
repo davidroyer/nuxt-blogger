@@ -3,7 +3,7 @@ import path from 'path'
 module.exports = {
   mode: 'universal',
 
-  watch: ['@@/api/**', '@@/modules/**'],
+  watch: ['@@/content/**', '@@/modules/**'],
 
   /*
   ** Headers of the page
@@ -45,7 +45,7 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
     '@/modules/blogger',
-    '@/modules/content'
+    '@/modules/nuxt-content'
   ],
   /*
   ** Axios module configuration
