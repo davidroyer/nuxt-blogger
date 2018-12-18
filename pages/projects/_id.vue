@@ -10,8 +10,8 @@
 
 <script>
 export default {
-  async asyncData ({ $axios, params }) {
-    const project = require(`@/static/api/projects/${params.id}.json`)
+  asyncData ({ $content, params }) {
+    const project = $content.get(`projects/${params.id}`)
     return { project }
   }
 }

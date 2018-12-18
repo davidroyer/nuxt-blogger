@@ -3,6 +3,7 @@
     <nav>
       <nuxt-link to="/">Home</nuxt-link>
       <nuxt-link to="/blog">Blog</nuxt-link>
+      <nuxt-link to="/projects">Projects</nuxt-link>
     </nav>
     <nuxt/>
   </div>

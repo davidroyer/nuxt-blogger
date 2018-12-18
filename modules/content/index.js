@@ -9,6 +9,7 @@ const copyDir = require('copy-dir');
 const globMd2data = require('glob-md2data');
 const markdown = require('markdown-it')({ html: true });
 const markdownImg = require('markdown-it-img');
+const markdownHighlight = require('markdown-it-highlightjs')
 
 module.exports = function (moduleOptions) {
   const defaultOptions = {
@@ -18,6 +19,7 @@ module.exports = function (moduleOptions) {
       { name: 'list', sort: (a, b) => moment(a.date).unix() < moment(b.date).unix() }
     ],
     markdown: [
+      markdownHighlight,
       markdownImg((attr, value, env) => {
         if (attr === 'src') {
           return value.replace('./', `/api/${env.modelName}/`);
@@ -34,6 +36,7 @@ module.exports = function (moduleOptions) {
   }
 
   const apiDir = path.join(process.cwd(), options.inputDir);
+  this.addPlugin(path.resolve(__dirname, 'plugin.js'))
 
   // convert md to json
   this.nuxt.hook('build:before', async () => {
@@ -91,4 +94,6 @@ module.exports = function (moduleOptions) {
       }
     }
   });
+
+  
 }

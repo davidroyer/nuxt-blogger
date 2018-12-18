@@ -17,8 +17,8 @@
 <script>
 
 export default {
-  async asyncData () {
-    const posts = require('@/static/api/blog.json')
+  asyncData ({$content}) {
+    const posts = $content.get('blog')
     return { posts }
   }
 }

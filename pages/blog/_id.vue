@@ -10,10 +10,11 @@
 
 <script>
 export default {
-  async asyncData ({ $axios, params }) {
-    const post = require(`@/static/api/blog/${params.id}.json`)
-
+  asyncData ({ $content, params }) {
+    const post = $content.get(`blog/${params.id}`)
     return { post }
   }
 }
 </script>
+
+<style src='~/node_modules/highlight.js/styles/atom-one-dark-reasonable.css'></style>
