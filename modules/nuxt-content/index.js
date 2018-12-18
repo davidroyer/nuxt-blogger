@@ -7,7 +7,6 @@ const markdown = require('markdown-it')({ html: true });
 const markdownImg = require('markdown-it-img');
 const markdownHighlight = require('markdown-it-highlightjs')
 
-
 module.exports = function (moduleOptions) {
   const defaultOptions = {
     inputDir: 'content',
@@ -38,23 +37,20 @@ module.exports = function (moduleOptions) {
   // convert md to json
   this.nuxt.hook('build:before', async () => {
     const outputDirPath = path.join(process.cwd(), options.outputDir);
+    const api = await globMd2data(apiDir);
 
     fsCleanUp(outputDirPath)
     fsMakeDirectory(outputDirPath)
 
-    const api = await globMd2data(apiDir);
-
     for (let modelName in api) {
+      const mds = api[modelName];
       const outputDirModelPath = path.join(outputDirPath, modelName);
-
-      fsMakeDirectory(outputDirModelPath)
-
-      // copy images to static dir
       const inputImageDirPath = path.join(apiDir, modelName, 'images');
       const outputImageDirPath = path.join(outputDirModelPath, 'images');
-      fsCopy(inputImageDirPath, outputImageDirPath);
-
-      const mds = api[modelName];
+      const imageDirExists = await fs.pathExists(inputImageDirPath)      
+      
+      fsMakeDirectory(outputDirModelPath)
+      if (imageDirExists) fsCopy(inputImageDirPath, outputImageDirPath);
 
       // write single model
       for (let md of mds) {

@@ -20,3 +20,8 @@ $ yarn run generate
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+
+
+TODO
+
+- Check removing md loader from nuxt-config
