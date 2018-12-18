@@ -1,15 +1,12 @@
+import fs from 'fs-extra'
 const path = require('path');
-const util = require('util');
-const del = require('del');
-const mkdirp = util.promisify(require('mkdirp'));
-const jsonWrite = util.promisify(require('jsonfile').writeFile);
 const moment = require('moment');
 const splitArray = require('split-array');
-const copyDir = require('copy-dir');
 const globMd2data = require('glob-md2data');
 const markdown = require('markdown-it')({ html: true });
 const markdownImg = require('markdown-it-img');
 const markdownHighlight = require('markdown-it-highlightjs')
+
 
 module.exports = function (moduleOptions) {
   const defaultOptions = {
@@ -42,29 +39,27 @@ module.exports = function (moduleOptions) {
   this.nuxt.hook('build:before', async () => {
     const outputDirPath = path.join(process.cwd(), options.outputDir);
 
-    await del(outputDirPath)
-    await mkdirp(outputDirPath);
+    fsCleanUp(outputDirPath)
+    fsMakeDirectory(outputDirPath)
 
     const api = await globMd2data(apiDir);
+
     for (let modelName in api) {
       const outputDirModelPath = path.join(outputDirPath, modelName);
-      await mkdirp(outputDirModelPath);
+
+      fsMakeDirectory(outputDirModelPath)
 
       // copy images to static dir
       const inputImageDirPath = path.join(apiDir, modelName, 'images');
       const outputImageDirPath = path.join(outputDirModelPath, 'images');
-      try {
-        copyDir.sync(inputImageDirPath, outputImageDirPath);
-
-      // eslint-disable-next-line
-      } catch (error) {}
+      fsCopy(inputImageDirPath, outputImageDirPath);
 
       const mds = api[modelName];
 
       // write single model
       for (let md of mds) {
         md.html = markdown.render(md.body, { modelName });
-        await jsonWrite(`${path.join(outputDirModelPath, md.id)}.json`, md);
+        fsOutputJson(`${path.join(outputDirModelPath, md.id)}.json`, md)
       }
 
       // write list api
@@ -75,10 +70,10 @@ module.exports = function (moduleOptions) {
           const limted = splitArray(sorted, sortData.limit);
           for (let i = 0; i < limted.length; i++) {
             const basename = `${sortData.name}-${i}`;
-            await jsonWrite(`${path.join(outputDirModelPath)}.json`, limted[i]);
+            fsOutputJson(`${path.join(outputDirModelPath)}.json`, limted[i]);
           }
         } else {
-          await jsonWrite(`${path.join(outputDirModelPath)}.json`, sorted);
+          fsOutputJson(`${path.join(outputDirModelPath)}.json`, sorted);
         }
       }
     }
@@ -93,7 +88,43 @@ module.exports = function (moduleOptions) {
         routes.push({ route: `/${modelName}/${md.id}` });
       }
     }
-  });
+  }); 
+}
 
-  
+// Async/Await:
+async function fsCopy(input, output) {
+  try {
+    await fs.copy(input, output)
+    console.log('success!')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// With async/await:
+async function fsCleanUp(input) {
+  try {
+    await fs.remove(input)
+    console.log('fsCleanUp success!')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+async function fsMakeDirectory(directory) {
+  try {
+    await fs.ensureDir(directory)
+    console.log('fsMakeDirectory success!')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+async function fsOutputJson(path, data) {
+  try {
+    await fs.outputJson(path, data)
+    console.log('fsOutputJson success!')
+  } catch (err) {
+    console.error(err)
+  }
 }
