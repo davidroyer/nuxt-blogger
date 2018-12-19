@@ -1,10 +1,14 @@
+import path from 'path'
+
 export default (context, inject) => {
+  const opts = Object.assign({}, <%= serialize(options) %>  )
 
   const contentApi = {
     get: (path) => {
-      return require(`@/static/api/${path}.json`)
+      return require(`@/${opts.outputDir}/${path}.json`)
     }
   }
+  
   context.$content = contentApi
   inject('content', contentApi)
 }

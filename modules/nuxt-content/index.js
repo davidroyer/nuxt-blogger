@@ -10,7 +10,7 @@ const markdownHighlight = require('markdown-it-highlightjs')
 module.exports = function (moduleOptions) {
   const defaultOptions = {
     inputDir: 'content',
-    outputDir: 'static/api',
+    outputDir: '_DB/api',
     lists: [
       { name: 'list', sort: (a, b) => moment(a.date).unix() < moment(b.date).unix() }
     ],
@@ -24,28 +24,29 @@ module.exports = function (moduleOptions) {
     ]
   };
 
-  const options = Object.assign(defaultOptions, moduleOptions);
+  const options = Object.assign(defaultOptions, this.options.content, moduleOptions);
 
+  console.log('index.js options: ', options)
   // markdown plugin
   for (let plugin of options.markdown) {
     markdown.use(plugin);
   }
 
-  const apiDir = path.join(process.cwd(), options.inputDir);
-  this.addPlugin(path.resolve(__dirname, 'plugin.js'))
-
-  // convert md to json
+  const contentDirectory = path.join(process.cwd(), options.inputDir);
+  
   this.nuxt.hook('build:before', async () => {
     const outputDirPath = path.join(process.cwd(), options.outputDir);
-    const api = await globMd2data(apiDir);
+    const collections = await globMd2data(contentDirectory);
+    const allTags = tagRoutes(collections.blog)
 
     fsCleanUp(outputDirPath)
     fsMakeDirectory(outputDirPath)
 
-    for (let modelName in api) {
-      const mds = api[modelName];
+
+    for (let modelName in collections) {
+      const mds = collections[modelName];
       const outputDirModelPath = path.join(outputDirPath, modelName);
-      const inputImageDirPath = path.join(apiDir, modelName, 'images');
+      const inputImageDirPath = path.join(contentDirectory, modelName, 'images');
       const outputImageDirPath = path.join(outputDirModelPath, 'images');
       const imageDirExists = await fs.pathExists(inputImageDirPath)      
       
@@ -77,14 +78,19 @@ module.exports = function (moduleOptions) {
 
   // add model route
   this.nuxt.hook('generate:extendRoutes', async (routes) => {
-    const api = await globMd2data(apiDir);
+    const api = await globMd2data(contentDirectory);
 
     for (let modelName in api) {
       for (let md of api[modelName]) {
         routes.push({ route: `/${modelName}/${md.id}` });
       }
     }
-  }); 
+  });
+
+  this.addPlugin({
+    src: path.resolve(__dirname, 'plugin.js'),
+    options
+  })
 }
 
 // Async/Await:
@@ -124,3 +130,15 @@ async function fsOutputJson(path, data) {
     console.error(err)
   }
 }
+
+const tagRoutes = posts => {
+  let tagsArray = [];
+  for (var i = 0; i < posts.length; i++) {
+    for (var n = 0; n < posts[i].tags.length; n++) {
+      tagsArray.push(posts[i].tags[n]);
+    }
+  }
+  return uniqueArray(tagsArray);
+};
+
+const uniqueArray = originalArray => [...new Set(originalArray)];

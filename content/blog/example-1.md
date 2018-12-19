@@ -29,7 +29,7 @@ I have created 3 files that handle the issues faced when attempting to use Fireb
 
 ---
 
-## Firebase App Setup
+## Firebase App Setup NEWWW
 
 To setup/initialize the firebase app with credentials, I created `services/fireinit.js`. An issue commonly seen by developers is Firebase telling us an app already exist. The line below solves this issue.
 

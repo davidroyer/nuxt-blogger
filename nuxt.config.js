@@ -2,8 +2,8 @@ const pkg = require('./package')
 import path from 'path'
 module.exports = {
   mode: 'universal',
-
-  watch: ['@@/content/**', '@@/modules/**'],
+  // , '@@/modules/**'
+  watch: ['@@/modules/**'],
 
   /*
   ** Headers of the page
@@ -66,16 +66,16 @@ module.exports = {
     */
    extend (config, { isDev, isClient }) {
 
-    config.module.rules.push({
-      test: /\.md$/,
-      loader: 'frontmatter-markdown-loader',
-      include: path.resolve(__dirname, 'content'),
-      options: {
-        vue: {
-          root: "dynamicMarkdown"
-        }
-      }
-    });
+    // config.module.rules.push({
+    //   test: /\.md$/,
+    //   loader: 'frontmatter-markdown-loader',
+    //   include: path.resolve(__dirname, 'content'),
+    //   options: {
+    //     vue: {
+    //       root: "dynamicMarkdown"
+    //     }
+    //   }
+    // });
     }
   }
 }
