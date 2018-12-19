@@ -39,7 +39,7 @@ module.exports = function (moduleOptions) {
     const collections = await globMd2data(contentDirectory);
     const allTags = tagRoutes(collections.blog)
 
-    fsCleanUp(outputDirPath)
+    // fsCleanUp(outputDirPath)
     fsMakeDirectory(outputDirPath)
 
 
