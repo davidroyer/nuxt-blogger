@@ -37,7 +37,9 @@ module.exports = function (moduleOptions) {
   const outputDirPath = path.join(process.cwd(), options.outputDir);
   
   this.nuxt.hook('build:before', async () => {
-    fsCleanUp(outputDirPath)
+    const outputDirPath = path.join(process.cwd(), options.outputDir);
+ 
+    // fsCleanUp(outputDirPath)
     fsMakeDirectory(outputDirPath)
 
     const collectionsMD = await globMd2data(contentDirectory);
