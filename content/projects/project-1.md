@@ -1,5 +1,5 @@
 ---
-title: Title 1 Project
+title: Title 1D Project
 tags:
   - nuxt
   - firebase

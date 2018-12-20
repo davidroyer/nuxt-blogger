@@ -1,5 +1,5 @@
 ---
-title: My Article Demo For Markdown
+title: My Article Demo For Markdown 2
 subject: Hello
 tags:
   - tag1
@@ -9,7 +9,7 @@ tags:
 
 message NEWW3!
 
-hi23
+
 <!-- 
 Reference-style: 
 ![alt text][@/assets/images/share.png] -->
