@@ -1,5 +1,5 @@
 ---
-title: Apple is good
+title: Apple is good 2
 author: Jonathan Ive
 date: 2018-04-15
 tags:

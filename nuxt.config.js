@@ -3,7 +3,7 @@ import path from 'path'
 module.exports = {
   mode: 'universal',
   // , '@@/modules/**'
-  watch: ['@@/modules/**'],
+  // watch: ['@/modules/**'],
 
   /*
   ** Headers of the page
